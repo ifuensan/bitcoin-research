@@ -59,9 +59,8 @@ To be able to process data from multiple Bitcoin Core interfaces in multiple too
 
 The [`logger` tool](https://github.com/0xB10C/peer-observer/tree/master/tools/logger) logs events to stdout and supports basic topic filtering (thanks to [Nasser](https://github.com/nassersaazi) for [PR #138](https://github.com/0xB10C/peer-observer/pull/138)). I mainly use it to show how much communication is happening between a Bitcoin Core node and its peers.
 
-The output of the tool looks similar to the following snippet. Here, `<-` and `->` indicate an in- and outbound P2P message to or from our node. Connection events are marked with # CONN.
+The output of the tool looks similar to the following snippet. Here, `<-` and `->` indicate an in- and outbound P2P message to or from our node. Connection events are marked with `# CONN`.
 
-.
 ```text
  --> to id=11937171 (conn_type=1): wtxidrelay
  --> to id=11937171 (conn_type=1): sendaddrv2
@@ -86,3 +85,11 @@ The output of the tool looks similar to the following snippet. Here, `<-` and `-
  --> to id=11937172 (conn_type=1): SendCompact(send_compact=false, version=2)
  --> to id=11937172 (conn_type=1): Ping(2927426282439637971)
 ```
+
+#### `metrics` tool
+
+The [metrics tool](https://github.com/0xB10C/peer-observer/tree/master/tools/metrics) transforms individual events into aggregated statistics and serves them as Prometheus metrics. These metrics can then be displayed in Grafana dashboards. This allows for visual exploration and dashboard playlists that can help to detect attacks and anomalies visually. While there are some Grafana alerts for restarted nodes and inbound connections dropping, more work can be done on automatic anomaly detection. For this, the Prometheus recording rules mentioned in [#13 (comment)](https://github.com/0xB10C/peer-observer/issues/13#issuecomment-2404570158) could be useful to explore.
+
+![alt text](grafana-block-connection-duration.png)
+
+A Grafana dashboard showing the time it takes to connect blocks per node. Some nodes are faster than others due to hardware and configuration differences. For example, node frank is usually slower as it doesn’t have a mempool and needs to validate all transactions. The other nodes already have validated the transactions. An interactive version of this dashboard can be found on [snapshots.raintank.io](https://snapshots.raintank.io/dashboard/snapshot/lH8uj0MNKO9BIZEi39iivDmiEzROLFQP).
