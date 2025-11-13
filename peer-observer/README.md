@@ -91,3 +91,11 @@ The output of the tool looks similar to the following snippet. Here, `<-` and `-
 The [metrics tool](https://github.com/0xB10C/peer-observer/tree/master/tools/metrics) transforms individual events into aggregated statistics and serves them as Prometheus metrics. These metrics can then be displayed in Grafana dashboards. This allows for visual exploration and dashboard playlists that can help to detect attacks and anomalies visually. While there are some Grafana alerts for restarted nodes and inbound connections dropping, more work can be done on automatic anomaly detection. For this, the Prometheus recording rules mentioned in [#13 (comment)](https://github.com/0xB10C/peer-observer/issues/13#issuecomment-2404570158) could be useful to explore.
 
 ![alt text](grafana-block-connection-duration.png) A Grafana dashboard showing the time it takes to connect blocks per node. Some nodes are faster than others due to hardware and configuration differences. For example, node frank is usually slower as it doesn’t have a mempool and needs to validate all transactions. The other nodes already have validated the transactions. An interactive version of this dashboard can be found on [snapshots.raintank.io](https://snapshots.raintank.io/dashboard/snapshot/lH8uj0MNKO9BIZEi39iivDmiEzROLFQP).
+
+#### `websocket` too`
+
+The websocket tool publishes the events from NATS into a websocket as JSON objects. This allows us to work with the events in a browser and enables building web tools and visualizations. An example is the p2p-circle.html page, which displays the node connected to peer-observer in the middle and arranges the node’s peers in a circle around it. Exchanged messages and opened and closed connections are shown.
+
+![video](websocket-p2p-circle.mp4)
+
+The video shows the p2p-circle.html page with the peer-observer node in the middle and its peers arranged in a circle around it. The peers are labeled with their peer-id and colored by connection type: blue peers are inbound connections, red ones are full-relay-outbound, and yellow peers are block-only-outbound peers. Additionally, the P2P message exchange between the node and its peers, and new inbound connections being accepted and others being closed, can be seen.
