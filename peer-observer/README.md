@@ -38,6 +38,7 @@ For peer-observer, I primarily use the [net](https://github.com/bitcoin/bitcoin/
 #### Extractors and Tools
 To be able to process data from multiple Bitcoin Core interfaces in multiple tools, I choose a message queue that allows for multiple publishers and consumers. Extractors, like the `ebpf-extractor`, hooking into the tracepoint interface, publish events into the message queue. On the other end, subscribers or Tools consume these events and further process them. The most basic tool, called `logger`, just logs all received events. As a message queue peer-observer is using a [NATS.io](https://b10c.me/projects/024-peer-observer/NATS.io) server. Messages are serialized using protobuf.
 
+```
                                                 ┌──────────────────────┐
                                       NATS.io   │ Tools                │
                                       PUB-SUB   │                      │
@@ -52,6 +53,7 @@ To be able to process data from multiple Bitcoin Core interfaces in multiple too
                                          └──────┼──►...                │
                                       protobuf  │                      │
                                       messages  └──────────────────────┘
+```
 
 #### `logger` tool
 
